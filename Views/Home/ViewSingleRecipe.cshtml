@@ -1,0 +1,42 @@
+﻿@model RiaChristoforidouBlog.Models.Recipe
+
+@{
+    ViewBag.Title = "ViewSingleRecipe";
+}
+<section class="d-flex justify-content-center align-items-center vh-100" style="flex-direction:column">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CategoryId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Category.Name)
+            </dd>
+
+        </dl>
+    <div>
+        <p>
+            @Html.ActionLink("Πίσω στην Αρχική", "Index")
+            @Html.ActionLink("Επεξεργασία Συνταγής", "EditRecipe", new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-warning text-white" })
+
+            @Html.ActionLink("Διαγραφή Συνταγής", "ConfirmDeleteRecipe", new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-danger" })
+
+        </p>
+    </div>
+</section>

@@ -1,0 +1,22 @@
+﻿@model IQueryable<RiaChristoforidouBlog.Models.Recipe>
+@{
+    ViewBag.Title = "SearchQuery";
+}
+
+@foreach (var recipe in Model)
+{
+    <div style="max-height:5.5rem;overflow:hidden;" class="list-group mt-5">
+        <a href="@Url.Action("ViewSingleRecipe","Home",new { id=recipe.Id})" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">@recipe.Title</h5>
+            </div>
+            <p class="mb-1">@recipe.Description</p>
+            <small><b>Κατηγορία:</b> @recipe.Category.Name</small>
+        </a>
+    </div>
+}
+@if (Model.Count() == 0)
+{
+    <p>Δεν Βρέθηκαν αποτελέσματα.</p>
+}
+

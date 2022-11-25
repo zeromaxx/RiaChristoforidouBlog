@@ -1,0 +1,14 @@
+﻿/*.form-recipe{
+   margin-top:10rem; 
+}*/
+textarea{
+    width:100%;
+}
+a{
+    text-decoration:none !important;
+}
+section{
+ /*   min-height:100vh;
+    display:flex;
+    justify-content:center;*/
+}

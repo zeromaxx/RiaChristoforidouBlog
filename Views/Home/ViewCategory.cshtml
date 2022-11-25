@@ -1,0 +1,33 @@
+﻿@model IEnumerable<RiaChristoforidouBlog.Models.Recipe>
+@{
+    ViewBag.Title = "ViewCategory";
+}
+
+
+<div class="row row-cols-1 row-cols-md-3 g-4 mt-3">
+    @foreach (var recipe in Model)
+    {
+        <a href="@Url.Action("ViewSingleRecipe","Home",new { id=recipe.Id})">
+            <div class="col">
+                <div class="card">
+                    <img src="~/img/@Url.Content(recipe.Category.Thumbnail)" class="card-img-top" alt="...">
+                    <div class="card-body" style="max-height:10rem;overflow:hidden">
+                        <h5 class="card-title fs-2 text-dark">@recipe.Title</h5>
+                        <p class="card-text text-black-50">@recipe.Description</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+    }
+    
+</div>
+
+<div class="container col-md-6 text-center" style="margin-top:15rem;">
+    @if (Model.Count() == 0)
+    {
+        <a href="@Url.Action("CreateRecipe","Home")">Δεν βρέθηκαν Συνταγές. Ανεβάστε τώρα μια.</a>
+        <hr />
+    }
+</div>
+
