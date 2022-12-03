@@ -14,11 +14,12 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.Description)
+                @*@Html.DisplayNameFor(model => model.Description)*@
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.Description)
+                @Html.Raw(Model.Description)
+                @*@Html.DisplayFor(model => model.Description)*@
             </dd>
 
             <dt>

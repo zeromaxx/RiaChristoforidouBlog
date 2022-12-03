@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -35,6 +36,16 @@ namespace RiaChristoforidouBlog.Controllers
             {
                 ViewBag.CategoryId = new SelectList(_context.Categories.ToList(), "Id", "Name");
                 return View(recipe);
+            }
+            if (recipe.ImageFile == null)
+            {
+                recipe.Thumbnail = "na_image.jpg";
+            }
+            else
+            {
+                recipe.Thumbnail = Path.GetFileName(recipe.ImageFile.FileName);
+                string fullPath = Path.Combine(Server.MapPath("~/img/"), recipe.Thumbnail);
+                recipe.ImageFile.SaveAs(fullPath);
             }
             _context.Recipes.Add(recipe);
             _context.SaveChanges();
@@ -116,14 +127,27 @@ namespace RiaChristoforidouBlog.Controllers
         }
         public ActionResult EditRecipe(int id)
         {
-            ViewBag.CategoryId = new SelectList(_context.Categories.ToList(), "Id", "Name");
             var recipe = _context.Recipes.Where(r => r.Id == id).SingleOrDefault();
+            ViewBag.CategoryId = new SelectList(_context.Categories.ToList(), "Id", "Name",recipe.CategoryId);
+            
             return View(recipe);
         }
         [HttpPost]
         public ActionResult EditRecipe(Recipe recipe)
         {
-            _context.Entry(recipe).State = EntityState.Modified;
+            if (recipe.ImageFile == null)
+            {
+                var categoryInDb = _context.Recipes.Where(c => c.Id == recipe.Id).FirstOrDefault();
+                recipe.Thumbnail = categoryInDb.Thumbnail;
+
+            }
+            if (recipe.ImageFile != null)
+            {
+                recipe.Thumbnail = Path.GetFileName(recipe.ImageFile.FileName);
+                string fullPath = Path.Combine(Server.MapPath("~/img/"), recipe.Thumbnail);
+                recipe.ImageFile.SaveAs(fullPath);
+                _context.Entry(recipe).State = EntityState.Modified;
+            }
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -137,16 +161,16 @@ namespace RiaChristoforidouBlog.Controllers
         }
         public ActionResult SearchQuery(string query)
         {
-            var recipes = _context.Recipes.Include(c => c.Category).AsQueryable();
-            if (!string.IsNullOrEmpty(query))
-            {
-                char[] delimiterChars = { ' ', ',', '.', ':', '\t' };
-                string[] words = query.Split(delimiterChars);
-                recipes = recipes.Where(p => words.Any(w => p.Title.Contains(w)
-                                                             
-                                          ));
-            }
-            return View(recipes);
+            var recipes = _context.Recipes.Include(c=> c.Category).ToList();
+            //foreach (var recipe in recipes)
+            //{
+            //    if (recipe.Title.Contains("α"))
+            //    {
+            //        recipe.Title = "ά";
+            //    }
+            //}
+            return View(recipes.Where(x => x.Title.Contains(query)));
+
         }
 
     }

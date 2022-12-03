@@ -4,7 +4,7 @@
     ViewBag.Title = "InsertNewCategory";
 }
 <section class="d-flex justify-content-center align-items-center vh-100">
-    @using (Html.BeginForm("InsertNewCategory", "Home", FormMethod.Post, new { @class = "form-recipe", enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("InsertNewCategory", "Home", FormMethod.Post, new { @class = "form-control", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
 
